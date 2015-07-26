@@ -1,0 +1,356 @@
+#include "stdafx.h"
+#include "conio.h"
+#include <iostream>
+#include <string>
+
+using namespace std;
+
+struct producto
+{
+	int idprod;
+	string descripcion;
+	int costo;
+	int precio;
+	string unidad;
+	int tipo;
+};
+
+struct almacen
+{
+	int idalmacen;
+	string descripcion;
+};
+
+struct un
+{
+	int idun;
+	string descripcion;
+};
+
+struct usuarios
+{
+	int idusuario;
+	string nombre;
+	string clave;
+};
+
+struct tipoprod
+{
+	int idtipo;
+	string descripcion;
+};
+
+struct stock
+{
+	int idprod;
+	int idalmacen;
+	int ventasacum;
+};
+
+//funciones
+int validarentero();
+
+
+void menuprod();
+void menualmacen();
+void menuunidadnegocio();
+void menutipodeprod();
+void menuusuarios();
+void menuclaves();
+
+
+void main()
+{	int opcion;
+	do{
+		cout << "\tMENU\n";
+		cout << "1.Productos\n";
+		cout << "2.Almacen\n";
+		cout << "3.Unidades de Negocio\n";
+		cout << "4.Usuarios\n";
+		cout << "5.Tipo de producto\n";
+		cout << "6.Administracion de claves\n";
+		cout << "0.SALIR\n";
+		cout << "\nEscoja una opcion: \n";
+		opcion=validarentero();
+		system("cls");
+		switch (opcion)
+		{
+		case 1: menuprod();
+				break;
+
+		case 2: menualmacen();
+			
+				break;
+		case 3:menuunidadnegocio();
+			  
+				break;
+		case 4:menuusuarios();
+			
+			break;
+
+		case 5:menutipodeprod();
+			
+			break;
+
+		case 6:menuclaves();
+			
+			break;
+		case 0: cout << "SALIR";
+			break;
+		default: cout << "ERROR";
+			getch();
+			break;
+		}
+		system("cls");
+	} while (opcion!=0);
+}
+
+
+//validaciones
+int validarentero()
+{
+	int r, i; bool k;
+	char num[12];
+	do{
+		do{
+			cout << "\ningrese numero: ";
+			fflush(stdin);
+			gets(num);
+		} while (strlen(num) == 0);
+		i = 0; k = true;
+		if (num[0] == '-')
+		{
+			i++;
+			if (strlen(num) == 1)
+				k = false;
+		}
+		while (i<strlen(num))
+		{
+			if ((num[i] != '0') && (num[i] != '1') && (num[i] != '2') && (num[i] != '3') && (num[i] != '4') && (num[i] != '5') && (num[i] != '6') && (num[i] != '7') && (num[i] != '8') && (num[i] != '9'))
+			{
+				k = false; break;
+			}
+			i++;
+		}
+		if (k == false){ cout << "ERROR FATAL : DATO NO NUMERICO"; }
+	} while (k == false);
+	r = atoi(num);
+
+	return(r);
+}
+
+//sub menus
+void menuprod()
+{int opcion;
+	do{
+		cout << "\tMENU PRODUCTOS\n";
+		cout << "1.Adicionar\n";
+		cout << "2.Modificar\n";
+		cout << "3.Buscar\n";
+		cout << "4.Eliminar\n";
+		cout << "5.Mostrar\n";
+		cout << "0.SALIR\n";
+		cout << "\nEscoja una opcion: \n";
+		opcion=validarentero();
+		system("cls");
+		switch (opcion)
+		{
+		case 1:
+			
+			break;
+		case 2: 
+			
+			break;
+		case 3:
+			  
+				break;
+		case 4:
+			
+			break;
+		case 5:
+			
+			break;
+		case 0: cout << "SALIR";
+			break;
+		default: cout << "ERROR";
+			getch();
+			break;
+		}
+		system("cls");
+	} while (opcion!=0);
+}
+void menualmacen()
+{int opcion;
+	do{
+		cout << "\tMENU ALMACEN\n";
+		cout << "1.Adicionar\n";
+		cout << "2.Modificar\n";
+		cout << "3.Buscar\n";
+		cout << "4.Eliminar\n";
+		cout << "5.Mostrar\n";
+		cout << "0.SALIR\n";
+		cout << "\nEscoja una opcion: \n";
+		opcion=validarentero();
+		system("cls");
+		switch (opcion)
+		{
+		case 1:
+			
+			break;
+		case 2: 
+			
+			break;
+		case 3:
+			  
+				break;
+		case 4:
+			
+			break;
+		case 5:
+			
+			break;
+		case 0: cout << "SALIR";
+			break;
+		default: cout << "ERROR";
+			getch();
+			break;
+		}
+		system("cls");
+	} while (opcion!=0);
+}
+void menuunidadnegocio()
+{int opcion;
+	do{
+		cout << "\tMENU UNIDADES DE NEGOCIO\n";
+		cout << "1.Adicionar\n";
+		cout << "2.Modificar\n";
+		cout << "3.Buscar\n";
+		cout << "4.Eliminar\n";
+		cout << "5.Mostrar\n";
+		cout << "0.SALIR\n";
+		cout << "\nEscoja una opcion: \n";
+		opcion=validarentero();
+		system("cls");
+		switch (opcion)
+		{
+		case 1:
+			
+			break;
+		case 2: 
+			
+			break;
+		case 3:
+			  
+				break;
+		case 4:
+			
+			break;
+		case 5:
+			
+			break;
+		case 0: cout << "SALIR";
+			break;
+		default: cout << "ERROR";
+			getch();
+			break;
+		}
+		system("cls");
+	} while (opcion!=0);
+}
+void menutipodeprod()
+{int opcion;
+	do{
+		cout << "\tMENU TIPO DE PRODUCTO\n";
+		cout << "1.Adicionar\n";
+		cout << "2.Modificar\n";
+		cout << "3.Buscar\n";
+		cout << "4.Eliminar\n";
+		cout << "5.Mostrar\n";
+		cout << "0.SALIR\n";
+		cout << "\nEscoja una opcion: \n";
+		opcion=validarentero();
+		system("cls");
+		switch (opcion)
+		{
+		case 1:
+			
+			break;
+		case 2: 
+			
+			break;
+		case 3:
+			  
+				break;
+		case 4:
+			
+			break;
+		case 5:
+			
+			break;
+		case 0: cout << "SALIR";
+			break;
+		default: cout << "ERROR";
+			getch();
+			break;
+		}
+		system("cls");
+	} while (opcion!=0);
+}
+void menuusuarios()
+{int opcion;
+	do{
+		cout << "\tMENU USUARIOS\n";
+		cout << "1.Gerente\n";
+		cout << "2.Encargado de ventas\n";
+		cout << "0.SALIR\n";
+		cout << "\nEscoja una opcion: \n";
+		opcion=validarentero();
+		system("cls");
+		switch (opcion)
+		{
+		case 1:
+			
+			break;
+		case 2: 
+			
+			break;
+
+		case 0: cout << "SALIR";
+			break;
+		default: cout << "ERROR";
+			getch();
+			break;
+		}
+		system("cls");
+	} while (opcion!=0);
+}
+void menuclaves()
+{int opcion;
+	do{
+		cout << "\tMENU ADMINISTRACION DE CLAVES\n";
+		cout << "1.Modificar\n";
+		cout << "2.Mostrar\n";
+		cout << "0.SALIR\n";
+		cout << "\nEscoja una opcion: \n";
+		opcion=validarentero();
+		system("cls");
+		switch (opcion)
+		{
+		case 1:
+			
+			break;
+		case 2: 
+			
+			break;
+
+		case 0: cout << "SALIR";
+			break;
+		default: cout << "ERROR";
+			getch();
+			break;
+		}
+		system("cls");
+	} while (opcion!=0);
+}
+
+//adicionar
