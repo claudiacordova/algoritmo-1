@@ -1,0 +1,262 @@
+// prosato.cpp: define el punto de entrada de la aplicación de consola.
+//
+
+#include "stdafx.h"
+#include "conio.h"
+#include <iostream>
+#include <string>
+#include <iomanip>
+
+using namespace std;
+
+struct producto
+{
+	int idprod;
+	char descripcion[30];
+	int costounit;
+	int preciounit;
+	char unidad[5];
+	int idtipo;
+	char estado;
+};
+struct almacen
+{
+	int idalmacen;
+	char descripcion[30];
+};
+struct un
+{
+	int idun;
+	char descripcion[30];
+};
+struct usuarios
+{
+	int idusuario;
+	char nombre[30];
+	char clave[30];
+};
+struct tipoprod
+{
+	int idtipo;
+	char descripcion[30];
+};
+struct stock
+{
+	int idprod;
+	int idalmacen;
+	int ventasacum;
+	int año;
+};
+//producto
+bool validarID(int id){
+	FILE *ptr;
+	bool w=true;
+	producto reg;
+	if(ptr!=NULL){
+		fread(&reg,sizeof(reg),1,ptr);
+		while(!feof(ptr)){
+			if(reg.idprod==id)
+				w=false;
+			fread(&reg,sizeof(reg),1,ptr);
+		}
+		fclose(ptr);
+		return w;
+	}
+}
+void adicionarproducto(){
+	FILE *ptr;
+	producto reg;
+	ptr=fopen("productos.dat","ab");
+	if(ptr!=NULL){
+		cout<<"id producto: ";
+		cin>>reg.idprod;
+		while(!validarID(reg.idprod)){
+			cout<<"ese id producto ya existe!"<<endl;
+			cout<<"ingrese otro: ";
+			cin>>reg.idprod;
+		}
+		fflush(stdin);
+		cout<<"descripcion: ";
+		gets(reg.descripcion);
+		cout<<"costo: ";
+		cin>>reg.costounit;
+		cout<<"precio: ";
+		cin>>reg.preciounit;
+		fflush(stdin);
+		cout<<"unidad: ";
+		gets(reg.unidad);
+		cout<<"ID tipo producto: ";
+		cin>>reg.idtipo;
+		reg.estado='S';
+		fwrite(&reg,sizeof(reg),1,ptr);
+		fclose(ptr);
+	}
+	else{
+		cout<<"el archivo no existe";
+	}
+}
+void modificarproducto(){
+	FILE *ptr;
+	producto reg;
+	int id;
+	ptr=fopen("productos.dat","r+b");
+	if(ptr!=NULL){
+		cout<<"ingrese id: ";
+		cin>>id;
+		fread(&reg,sizeof(reg),1,ptr);
+		while(!feof(ptr) && id!=reg.idprod){
+			fread(&reg,sizeof(reg),1,ptr);
+		}
+		if(id==reg.idprod && reg.estado=='S'){
+			cout<<"descripcion: ";
+			fflush(stdin);
+			gets(reg.descripcion);
+			cout<<"costo: ";
+			cin>>reg.costounit;
+			cout<<"precio: ";
+			cin>>reg.preciounit;
+			cout<<"unidad: ";
+			fflush(stdin);
+			gets(reg.unidad);
+			cout<<"ID tipo producto: ";
+			cin>>reg.idtipo;
+			fseek(ptr,-1*sizeof(reg),SEEK_CUR);
+			fwrite(&reg,sizeof(reg),1,ptr);
+			fclose(ptr);
+		}
+		else
+			cout<<"el producto no existe";
+	}
+	else{
+		cout<<"el archivo no existe";
+	}
+}
+void buscarproducto(){
+	FILE *ptr;
+	int id;
+	producto reg;
+	ptr=fopen("productos.dat","rb");
+	if(ptr!=NULL){
+		cout<<"ingrese id: ";
+		cin>>id;
+		fread(&reg,sizeof(reg),1,ptr);
+		while(!feof(ptr) && id!=reg.idprod){
+			fread(&reg,sizeof(reg),1,ptr);
+		}
+		if(id==reg.idprod && reg.estado=='S'){
+			cout<<"descripcion: "<<reg.descripcion<<endl;
+			cout<<"costo: "<<reg.costounit<<endl;
+			cout<<"precio: "<<reg.preciounit<<endl;
+			cout<<"unidad: "<<reg.unidad<<endl;
+			cout<<"ID tipo producto: "<<reg.idtipo;
+		}
+		else
+			cout<<"el producto no existe";
+		fclose(ptr);
+	}
+	else{
+		cout<<"el archivo no existe";
+	}
+}
+void eliminarproducto(){
+	FILE *ptr;
+	producto reg;
+	char c;
+	int id;
+	ptr=fopen("productos.dat","r+b");
+	if(ptr!=NULL){
+		cout<<"ingrese id: ";
+		cin>>id;
+		fread(&reg,sizeof(reg),1,ptr);
+		while(!feof(ptr) && id!=reg.idprod){
+			fread(&reg,sizeof(reg),1,ptr);
+		}
+		if(id==reg.idprod && reg.estado=='S'){
+			cout<<"descripcion: "<<reg.descripcion<<endl;
+			cout<<"costo: "<<reg.costounit<<endl;
+			cout<<"precio: "<<reg.preciounit<<endl;
+			cout<<"unidad"<<reg.unidad<<endl;
+			cout<<"ID tipo producto: "<<reg.idtipo<<endl;
+			cout<<"desea eliminar?(S/N): ";
+			cin>>c;
+			if(c=='S'){
+				reg.estado='N';
+				fseek(ptr,-1*sizeof(reg),SEEK_CUR);
+				fwrite(&reg,sizeof(reg),1,ptr);
+				cout<<"el registro se ha eliminado";
+			}
+			else{
+				cout<<"el registro no se ha eliminado";
+			}
+			
+		}
+		else
+			cout<<"el producto no existe";
+		fclose(ptr);
+	}
+	else{
+		cout<<"el archivo no existe";
+	}
+}
+void listarproducto(){
+	FILE *ptr;
+	ptr=fopen("productos.dat","rb");
+	producto reg;
+	if(ptr!=NULL){
+		cout<<setw(20)<<"ID producto"<<setw(20)<<"descripcion"<<setw(20)<<"costo"<<setw(20)<<"precio"<<setw(20)<<"unidad"<<setw(20)<<"ID tipo producto"<<endl;
+		fread(&reg,sizeof(reg),1,ptr);
+		while(!feof(ptr)){
+			if(reg.estado=='S'){
+				cout<<setw(20)<<reg.idprod<<setw(20)<<reg.descripcion<<setw(20)<<reg.costounit<<setw(20)<<reg.preciounit<<setw(20)<<reg.unidad<<setw(20)<<reg.idtipo<<endl;
+			}
+			fread(&reg,sizeof(reg),1,ptr);
+		}
+		fclose(ptr);
+	}
+	else
+		cout<<"el archivo no existe";
+}
+int main(){
+	int opcion;
+	do{
+		system("cls");
+		cout << "\tProducto\n";
+		cout << "1.Adicionar\n";
+		cout << "2.Modificar\n";
+		cout << "3.Buscar\n";
+		cout << "4.Eliminar\n";
+		cout << "5.Listar\n";
+		cout << "\nEscoja una opcion: \n";
+		cin>>opcion;
+		system("cls");
+		switch (opcion)
+		{
+		case 1:
+			adicionarproducto();
+			getch();
+			break;
+		case 2: 
+			modificarproducto();
+			getch();
+			break;
+		case 3:
+			buscarproducto();
+			getch();
+			break;
+		case 4: 
+			eliminarproducto();
+			getch();
+			break;
+		case 5:
+			listarproducto();
+			getch();
+			break;
+		case 0: cout << "SALIR";
+			break;
+		default: cout << "ERROR";
+			getch();
+			break;
+		}
+		system("cls");
+	} while (opcion!=0);
+}
