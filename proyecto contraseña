@@ -1,0 +1,60 @@
+#include "stdafx.h"
+#include <iostream>
+#include <conio.h>
+#include <string>
+using namespace std;
+struct usuario{
+	int codigo;
+	char nombre[30];
+	char contraseña[30];
+};
+
+void crearusuario(){
+	FILE *ptr;
+	usuario reg;
+	ptr=fopen("usuarios.dat","ab");
+	if(ptr!=NULL){
+		cout<<"1.-encargado de ventas"<<endl
+			<<"2.-gerencia"<<endl
+			<<"3.-encargado de sistemas"<<endl
+			<<"ingrese opcion";
+		cin>>reg.codigo;
+		cout<<"nombre: ";
+		fflush(stdin);
+		gets(reg.nombre);
+		cout<<"contraseña: ";
+		gets(reg.contraseña);
+		fwrite(&reg,sizeof(reg),1,ptr);
+		fclose(ptr);
+	}
+	else
+		cout<<"el archivo no existe";
+}
+
+int a(){
+	FILE *ptr;
+	usuario reg;
+	int w=0;
+	char nombre[30],contraseña[30];
+	ptr=fopen("usuarios.dat","rb");
+	cout<<"usuario: ";
+	gets(nombre);
+	cout<<"contraseña: ";
+	gets(contraseña);
+	fread(&reg,sizeof(reg),1,ptr);
+	while(!feof(ptr)){
+		if(strcmp(nombre,reg.nombre)==0){
+			if(strcmp(contraseña,reg.contraseña)==0){
+				w=reg.codigo;
+			}
+		}
+		fread(&reg,sizeof(reg),1,ptr);
+	}
+	fclose(ptr);
+	return w;
+}
+int main(){
+	crearusuario();
+	getch();
+	return 0;
+}
